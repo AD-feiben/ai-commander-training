@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="phase1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="phase2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="phase3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="phase4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="700" fill="url(#bgGrad)"/>
+
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#334155" stroke-width="0.5" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="900" height="700" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="450" y="50" text-anchor="middle" fill="#f8fafc" font-size="28" font-family="system-ui" font-weight="bold">AI Commander 学习路径</text>
+  <text x="450" y="80" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="system-ui">从入门到精通的完整成长路线</text>
+
+  <!-- Phase 1: 认知升级 -->
+  <g transform="translate(100, 130)">
+    <rect x="0" y="0" width="170" height="200" fill="#1e293b" stroke="url(#phase1)" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="85" y="35" text-anchor="middle" fill="#06b6d4" font-size="16" font-weight="bold" font-family="system-ui">第一阶段</text>
+    <text x="85" y="60" text-anchor="middle" fill="#f8fafc" font-size="14" font-family="system-ui">认知升级</text>
+    
+    <g transform="translate(20, 85)">
+      <circle cx="8" cy="8" r="4" fill="#3b82f6"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">角色转变</text>
+    </g>
+    <g transform="translate(20, 110)">
+      <circle cx="8" cy="8" r="4" fill="#3b82f6"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">AI 能力边界</text>
+    </g>
+    <g transform="translate(20, 135)">
+      <circle cx="8" cy="8" r="4" fill="#3b82f6"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">工具选择</text>
+    </g>
+    
+    <text x="85" y="180" text-anchor="middle" fill="#64748b" font-size="10" font-family="system-ui">第 1 章</text>
+  </g>
+
+  <!-- Arrow 1 -->
+  <g transform="translate(280, 220)">
+    <path d="M0 10 L30 10 M20 0 L30 10 L20 20" stroke="#475569" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Phase 2: 规范驱动 -->
+  <g transform="translate(320, 130)">
+    <rect x="0" y="0" width="170" height="200" fill="#1e293b" stroke="url(#phase2)" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="85" y="35" text-anchor="middle" fill="#ec4899" font-size="16" font-weight="bold" font-family="system-ui">第二阶段</text>
+    <text x="85" y="60" text-anchor="middle" fill="#f8fafc" font-size="14" font-family="system-ui">规范驱动</text>
+    
+    <g transform="translate(20, 85)">
+      <circle cx="8" cy="8" r="4" fill="#8b5cf6"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">规范的重要性</text>
+    </g>
+    <g transform="translate(20, 110)">
+      <circle cx="8" cy="8" r="4" fill="#8b5cf6"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">编写技术规范</text>
+    </g>
+    <g transform="translate(20, 135)">
+      <circle cx="8" cy="8" r="4" fill="#8b5cf6"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">SDD 实战</text>
+    </g>
+    
+    <text x="85" y="180" text-anchor="middle" fill="#64748b" font-size="10" font-family="system-ui">第 2 章</text>
+  </g>
+
+  <!-- Arrow 2 -->
+  <g transform="translate(500, 220)">
+    <path d="M0 10 L30 10 M20 0 L30 10 L20 20" stroke="#475569" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Phase 3: 提示工程 -->
+  <g transform="translate(540, 130)">
+    <rect x="0" y="0" width="170" height="200" fill="#1e293b" stroke="url(#phase3)" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="85" y="35" text-anchor="middle" fill="#f59e0b" font-size="16" font-weight="bold" font-family="system-ui">第三阶段</text>
+    <text x="85" y="60" text-anchor="middle" fill="#f8fafc" font-size="14" font-family="system-ui">提示工程</text>
+    
+    <g transform="translate(20, 85)">
+      <circle cx="8" cy="8" r="4" fill="#f59e0b"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">提示工程基础</text>
+    </g>
+    <g transform="translate(20, 110)">
+      <circle cx="8" cy="8" r="4" fill="#f59e0b"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">高级提示技巧</text>
+    </g>
+    <g transform="translate(20, 135)">
+      <circle cx="8" cy="8" r="4" fill="#f59e0b"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">上下文工程</text>
+    </g>
+    
+    <text x="85" y="180" text-anchor="middle" fill="#64748b" font-size="10" font-family="system-ui">第 3 章</text>
+  </g>
+
+  <!-- Arrow 3 (down) -->
+  <g transform="translate(625, 340)">
+    <path d="M0 0 L0 30 M-10 20 L0 30 L10 20" stroke="#475569" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Phase 4: 任务分解 -->
+  <g transform="translate(540, 380)">
+    <rect x="0" y="0" width="170" height="200" fill="#1e293b" stroke="url(#phase4)" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="85" y="35" text-anchor="middle" fill="#10b981" font-size="16" font-weight="bold" font-family="system-ui">第四阶段</text>
+    <text x="85" y="60" text-anchor="middle" fill="#f8fafc" font-size="14" font-family="system-ui">任务分解</text>
+    
+    <g transform="translate(20, 85)">
+      <circle cx="8" cy="8" r="4" fill="#10b981"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">分解原则</text>
+    </g>
+    <g transform="translate(20, 110)">
+      <circle cx="8" cy="8" r="4" fill="#10b981"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">工作流设计</text>
+    </g>
+    <g transform="translate(20, 135)">
+      <circle cx="8" cy="8" r="4" fill="#10b981"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">复杂项目实战</text>
+    </g>
+    
+    <text x="85" y="180" text-anchor="middle" fill="#64748b" font-size="10" font-family="system-ui">第 4 章</text>
+  </g>
+
+  <!-- Arrow 4 (left) -->
+  <g transform="translate(500, 470)">
+    <path d="M30 10 L0 10 M10 0 L0 10 L10 20" stroke="#475569" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Phase 5: 高级主题 -->
+  <g transform="translate(320, 380)">
+    <rect x="0" y="0" width="170" height="200" fill="#1e293b" stroke="#f472b6" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="85" y="35" text-anchor="middle" fill="#f472b6" font-size="16" font-weight="bold" font-family="system-ui">第五阶段</text>
+    <text x="85" y="60" text-anchor="middle" fill="#f8fafc" font-size="14" font-family="system-ui">高级主题</text>
+    
+    <g transform="translate(20, 85)">
+      <circle cx="8" cy="8" r="4" fill="#f472b6"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">Agent Skills</text>
+    </g>
+    <g transform="translate(20, 110)">
+      <circle cx="8" cy="8" r="4" fill="#f472b6"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">多 Agent 协作</text>
+    </g>
+    <g transform="translate(20, 135)">
+      <circle cx="8" cy="8" r="4" fill="#f472b6"/>
+      <text x="20" y="12" fill="#cbd5e1" font-size="11" font-family="system-ui">实战项目</text>
+    </g>
+    
+    <text x="85" y="180" text-anchor="middle" fill="#64748b" font-size="10" font-family="system-ui">第 5-9 章</text>
+  </g>
+
+  <!-- Arrow 5 (left) -->
+  <g transform="translate(280, 470)">
+    <path d="M30 10 L0 10 M10 0 L0 10 L10 20" stroke="#475569" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Goal -->
+  <g transform="translate(100, 380)">
+    <rect x="0" y="0" width="170" height="200" fill="#1e293b" stroke="#22d3ee" stroke-width="3" rx="12" filter="url(#glow)"/>
+    <text x="85" y="50" text-anchor="middle" fill="#22d3ee" font-size="18" font-weight="bold" font-family="system-ui">🎯 成为</text>
+    <text x="85" y="80" text-anchor="middle" fill="#22d3ee" font-size="18" font-weight="bold" font-family="system-ui">AI Commander</text>
+    
+    <g transform="translate(25, 110)">
+      <text x="0" y="0" fill="#94a3b8" font-size="10" font-family="system-ui">✓ 掌握 SDD 方法论</text>
+      <text x="0" y="20" fill="#94a3b8" font-size="10" font-family="system-ui">✓ 精通提示工程</text>
+      <text x="0" y="40" fill="#94a3b8" font-size="10" font-family="system-ui">✓ 构建 AI 工作流</text>
+    </g>
+  </g>
+
+  <!-- Bottom text -->
+  <text x="450" y="650" text-anchor="middle" fill="#64748b" font-size="12" font-family="system-ui">预计学习周期：4-6 周 | 每个阶段包含理论 + 实战练习</text>
+
+  <!-- Decorative elements -->
+  <circle cx="50" cy="100" r="20" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.3"/>
+  <circle cx="850" cy="600" r="30" fill="none" stroke="#ec4899" stroke-width="1" opacity="0.3"/>
+  <circle cx="80" cy="600" r="15" fill="none" stroke="#10b981" stroke-width="1" opacity="0.3"/>
+</svg>
