@@ -1,0 +1,221 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="claudeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#d97757;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#cc785c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cursorGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="windsurfGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="copilotGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="traeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="650" fill="url(#bgGrad)"/>
+
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#334155" stroke-width="0.5" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="900" height="650" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="450" y="50" text-anchor="middle" fill="#f8fafc" font-size="28" font-family="system-ui" font-weight="bold">AI 编程工具对比</text>
+  <text x="450" y="80" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="system-ui">2025-2026 主流工具生态</text>
+
+  <!-- Tool Cards -->
+
+  <!-- Claude Code -->
+  <g transform="translate(50, 120)">
+    <rect x="0" y="0" width="160" height="220" fill="#1e293b" stroke="url(#claudeGrad)" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="80" y="35" text-anchor="middle" fill="#d97757" font-size="16" font-weight="bold" font-family="system-ui">Claude Code</text>
+    <text x="80" y="55" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="system-ui">CLI Agent 工具</text>
+
+    <g transform="translate(15, 75)">
+      <text x="0" y="0" fill="#4ade80" font-size="10" font-family="system-ui">✓ Agent 能力最强</text>
+      <text x="0" y="18" fill="#4ade80" font-size="10" font-family="system-ui">✓ 200K 上下文</text>
+      <text x="0" y="36" fill="#4ade80" font-size="10" font-family="system-ui">✓ MCP 原生支持</text>
+      <text x="0" y="54" fill="#4ade80" font-size="10" font-family="system-ui">✓ 免费使用</text>
+    </g>
+
+    <g transform="translate(15, 145)">
+      <text x="0" y="0" fill="#f87171" font-size="10" font-family="system-ui">✗ 需要学习 CLI</text>
+      <text x="0" y="18" fill="#f87171" font-size="10" font-family="system-ui">✗ 无图形界面</text>
+    </g>
+
+    <text x="80" y="205" text-anchor="middle" fill="#d97757" font-size="12" font-weight="bold" font-family="system-ui">⭐ 推荐</text>
+  </g>
+
+  <!-- Cursor -->
+  <g transform="translate(230, 120)">
+    <rect x="0" y="0" width="160" height="220" fill="#1e293b" stroke="url(#cursorGrad)" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="80" y="35" text-anchor="middle" fill="#3b82f6" font-size="16" font-weight="bold" font-family="system-ui">Cursor</text>
+    <text x="80" y="55" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="system-ui">AI IDE</text>
+
+    <g transform="translate(15, 75)">
+      <text x="0" y="0" fill="#4ade80" font-size="10" font-family="system-ui">✓ 界面友好</text>
+      <text x="0" y="18" fill="#4ade80" font-size="10" font-family="system-ui">✓ Tab 补全快</text>
+      <text x="0" y="36" fill="#4ade80" font-size="10" font-family="system-ui">✓ VS Code 生态</text>
+      <text x="0" y="54" fill="#4ade80" font-size="10" font-family="system-ui">✓ Agent Mode</text>
+    </g>
+
+    <g transform="translate(15, 145)">
+      <text x="0" y="0" fill="#f87171" font-size="10" font-family="system-ui">✗ $20/月</text>
+      <text x="0" y="18" fill="#f87171" font-size="10" font-family="system-ui">✗ 功能有时不稳定</text>
+    </g>
+
+    <text x="80" y="205" text-anchor="middle" fill="#3b82f6" font-size="12" font-weight="bold" font-family="system-ui">日常开发</text>
+  </g>
+
+  <!-- Windsurf -->
+  <g transform="translate(410, 120)">
+    <rect x="0" y="0" width="160" height="220" fill="#1e293b" stroke="url(#windsurfGrad)" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="80" y="35" text-anchor="middle" fill="#8b5cf6" font-size="16" font-weight="bold" font-family="system-ui">Windsurf</text>
+    <text x="80" y="55" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="system-ui">AI IDE</text>
+
+    <g transform="translate(15, 75)">
+      <text x="0" y="0" fill="#4ade80" font-size="10" font-family="system-ui">✓ Flow 模式创新</text>
+      <text x="0" y="18" fill="#4ade80" font-size="10" font-family="system-ui">✓ 多文件编辑强</text>
+      <text x="0" y="36" fill="#4ade80" font-size="10" font-family="system-ui">✓ 上下文理解深</text>
+      <text x="0" y="54" fill="#4ade80" font-size="10" font-family="system-ui">✓ 免费额度多</text>
+    </g>
+
+    <g transform="translate(15, 145)">
+      <text x="0" y="0" fill="#f87171" font-size="10" font-family="system-ui">✗ 用户群体小</text>
+      <text x="0" y="18" fill="#f87171" font-size="10" font-family="system-ui">✗ 生态不完善</text>
+    </g>
+
+    <text x="80" y="205" text-anchor="middle" fill="#8b5cf6" font-size="12" font-weight="bold" font-family="system-ui">复杂项目</text>
+  </g>
+
+  <!-- GitHub Copilot -->
+  <g transform="translate(590, 120)">
+    <rect x="0" y="0" width="160" height="220" fill="#1e293b" stroke="url(#copilotGrad)" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="80" y="35" text-anchor="middle" fill="#10b981" font-size="16" font-weight="bold" font-family="system-ui">Copilot</text>
+    <text x="80" y="55" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="system-ui">代码补全</text>
+
+    <g transform="translate(15, 75)">
+      <text x="0" y="0" fill="#4ade80" font-size="10" font-family="system-ui">✓ 实时补全快</text>
+      <text x="0" y="18" fill="#4ade80" font-size="10" font-family="system-ui">✓ 30+ 语言</text>
+      <text x="0" y="36" fill="#4ade80" font-size="10" font-family="system-ui">✓ 多 IDE 支持</text>
+      <text x="0" y="54" fill="#4ade80" font-size="10" font-family="system-ui">✓ 成熟稳定</text>
+    </g>
+
+    <g transform="translate(15, 145)">
+      <text x="0" y="0" fill="#f87171" font-size="10" font-family="system-ui">✗ $10/月</text>
+      <text x="0" y="18" fill="#f87171" font-size="10" font-family="system-ui">✗ Agent 能力弱</text>
+    </g>
+
+    <text x="80" y="205" text-anchor="middle" fill="#10b981" font-size="12" font-weight="bold" font-family="system-ui">代码补全</text>
+  </g>
+
+  <!-- Trae -->
+  <g transform="translate(770, 120)">
+    <rect x="0" y="0" width="160" height="220" fill="#1e293b" stroke="url(#traeGrad)" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="80" y="35" text-anchor="middle" fill="#f59e0b" font-size="16" font-weight="bold" font-family="system-ui">Trae</text>
+    <text x="80" y="55" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="system-ui">AI IDE</text>
+
+    <g transform="translate(15, 75)">
+      <text x="0" y="0" fill="#4ade80" font-size="10" font-family="system-ui">✓ 中文优化</text>
+      <text x="0" y="18" fill="#4ade80" font-size="10" font-family="system-ui">✓ 完全免费</text>
+      <text x="0" y="36" fill="#4ade80" font-size="10" font-family="system-ui">✓ Builder 模式</text>
+      <text x="0" y="54" fill="#4ade80" font-size="10" font-family="system-ui">✓ 国内访问快</text>
+    </g>
+
+    <g transform="translate(15, 145)">
+      <text x="0" y="0" fill="#f87171" font-size="10" font-family="system-ui">✗ 生态建设中</text>
+      <text x="0" y="18" fill="#f87171" font-size="10" font-family="system-ui">✗ 功能待完善</text>
+    </g>
+
+    <text x="80" y="205" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="bold" font-family="system-ui">中文用户</text>
+  </g>
+
+  <!-- Comparison Chart -->
+  <g transform="translate(50, 370)">
+    <rect x="0" y="0" width="800" height="220" fill="#1e293b" stroke="#475569" stroke-width="1" rx="8"/>
+
+    <!-- Header -->
+    <text x="100" y="35" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="bold" font-family="system-ui">特性</text>
+    <text x="220" y="35" text-anchor="middle" fill="#d97757" font-size="11" font-weight="bold" font-family="system-ui">Claude</text>
+    <text x="340" y="35" text-anchor="middle" fill="#3b82f6" font-size="11" font-weight="bold" font-family="system-ui">Cursor</text>
+    <text x="460" y="35" text-anchor="middle" fill="#8b5cf6" font-size="11" font-weight="bold" font-family="system-ui">Windsurf</text>
+    <text x="580" y="35" text-anchor="middle" fill="#10b981" font-size="11" font-weight="bold" font-family="system-ui">Copilot</text>
+    <text x="700" y="35" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="bold" font-family="system-ui">Trae</text>
+
+    <!-- Divider -->
+    <line x1="20" y1="50" x2="780" y2="50" stroke="#475569" stroke-width="1"/>
+
+    <!-- Row 1: Agent 能力 -->
+    <text x="20" y="75" fill="#cbd5e1" font-size="11" font-family="system-ui">Agent 能力</text>
+    <text x="220" y="75" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">⭐⭐⭐⭐⭐</text>
+    <text x="340" y="75" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">⭐⭐⭐⭐</text>
+    <text x="460" y="75" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">⭐⭐⭐⭐</text>
+    <text x="580" y="75" text-anchor="middle" fill="#fbbf24" font-size="11" font-family="system-ui">⭐⭐</text>
+    <text x="700" y="75" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">⭐⭐⭐</text>
+
+    <!-- Row 2: 学习曲线 -->
+    <text x="20" y="100" fill="#cbd5e1" font-size="11" font-family="system-ui">学习曲线</text>
+    <text x="220" y="100" text-anchor="middle" fill="#fbbf24" font-size="11" font-family="system-ui">中等</text>
+    <text x="340" y="100" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">低</text>
+    <text x="460" y="100" text-anchor="middle" fill="#fbbf24" font-size="11" font-family="system-ui">中等</text>
+    <text x="580" y="100" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">低</text>
+    <text x="700" y="100" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">低</text>
+
+    <!-- Row 3: 价格 -->
+    <text x="20" y="125" fill="#cbd5e1" font-size="11" font-family="system-ui">价格</text>
+    <text x="220" y="125" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">免费</text>
+    <text x="340" y="125" text-anchor="middle" fill="#f87171" font-size="11" font-family="system-ui">$20/月</text>
+    <text x="460" y="125" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">免费/付费</text>
+    <text x="580" y="125" text-anchor="middle" fill="#f87171" font-size="11" font-family="system-ui">$10/月</text>
+    <text x="700" y="125" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">免费</text>
+
+    <!-- Row 4: 上下文 -->
+    <text x="20" y="150" fill="#cbd5e1" font-size="11" font-family="system-ui">上下文窗口</text>
+    <text x="220" y="150" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">200K</text>
+    <text x="340" y="150" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">128K</text>
+    <text x="460" y="150" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">128K</text>
+    <text x="580" y="150" text-anchor="middle" fill="#fbbf24" font-size="11" font-family="system-ui">有限</text>
+    <text x="700" y="150" text-anchor="middle" fill="#4ade80" font-size="11" font-family="system-ui">128K</text>
+
+    <!-- Row 5: 适用场景 -->
+    <text x="20" y="175" fill="#cbd5e1" font-size="11" font-family="system-ui">最佳场景</text>
+    <text x="220" y="175" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">复杂项目</text>
+    <text x="340" y="175" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">日常开发</text>
+    <text x="460" y="175" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">复杂项目</text>
+    <text x="580" y="175" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">代码补全</text>
+    <text x="700" y="175" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">中文用户</text>
+
+    <!-- Bottom note -->
+    <text x="400" y="205" text-anchor="middle" fill="#64748b" font-size="10" font-family="system-ui">⭐ 越多表示该维度能力越强 | 选择工具需根据具体场景和需求</text>
+  </g>
+
+  <!-- Decorative elements -->
+  <circle cx="40" cy="100" r="25" fill="none" stroke="#d97757" stroke-width="1" opacity="0.3"/>
+  <circle cx="860" cy="600" r="30" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.3"/>
+  <circle cx="80" cy="620" r="20" fill="none" stroke="#10b981" stroke-width="1" opacity="0.3"/>
+</svg>
