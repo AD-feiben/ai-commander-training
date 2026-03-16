@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.prose {
+  @apply max-w-none;
+}
+
+.prose h1 {
+  @apply text-3xl font-bold mt-8 mb-4;
+}
+
+.prose h2 {
+  @apply text-2xl font-bold mt-6 mb-3;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold mt-4 mb-2;
+}
+
+.prose p {
+  @apply my-4 leading-relaxed;
+}
+
+.prose ul {
+  @apply my-4 ml-6 list-disc;
+}
+
+.prose ol {
+  @apply my-4 ml-6 list-decimal;
+}
+
+.prose li {
+  @apply my-2;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-blue-500 pl-4 my-4 italic;
+}
+
+.prose a {
+  @apply text-blue-500 hover:text-blue-600 underline;
+}
+
+.prose code:not(pre code) {
+  @apply bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded text-sm;
+}
+
+.prose pre {
+  @apply my-4 rounded-lg overflow-hidden;
+}
+
+.prose table {
+  @apply w-full my-4 border-collapse;
+}
+
+.prose th {
+  @apply bg-gray-100 dark:bg-gray-800 px-4 py-2 text-left border border-gray-300 dark:border-gray-700;
+}
+
+.prose td {
+  @apply px-4 py-2 border border-gray-300 dark:border-gray-700;
+}
+
+.prose img {
+  @apply rounded-lg my-4;
+}
+
+.prose hr {
+  @apply my-8 border-gray-300 dark:border-gray-700;
+}
+
+/* Animation utilities */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out forwards;
+}
+
+/* Smooth transitions for interactive elements */
+button, a {
+  @apply transition-all duration-200;
+}
+
+/* Card hover effects */
+.card-hover {
+  @apply transition-transform duration-300 hover:-translate-y-1;
+}
+
+/* Button press effect */
+.btn-press:active {
+  @apply scale-95;
+}
