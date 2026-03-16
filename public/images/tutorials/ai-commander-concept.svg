@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="glowBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:0.8" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bgGrad)"/>
+  
+  <!-- Grid lines -->
+  <g stroke="#334155" stroke-width="0.5" opacity="0.3">
+    <line x1="0" y1="100" x2="800" y2="100"/>
+    <line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="400" x2="800" y2="400"/>
+    <line x1="0" y1="500" x2="800" y2="500"/>
+    <line x1="100" y1="0" x2="100" y2="600"/>
+    <line x1="200" y1="0" x2="200" y2="600"/>
+    <line x1="300" y1="0" x2="300" y2="600"/>
+    <line x1="400" y1="0" x2="400" y2="600"/>
+    <line x1="500" y1="0" x2="500" y2="600"/>
+    <line x1="600" y1="0" x2="600" y2="600"/>
+    <line x1="700" y1="0" x2="700" y2="600"/>
+  </g>
+  
+  <!-- Central Platform -->
+  <ellipse cx="400" cy="450" rx="200" ry="40" fill="#1e293b" stroke="#3b82f6" stroke-width="2" filter="url(#glow)"/>
+  
+  <!-- Commander Figure -->
+  <g transform="translate(400, 320)">
+    <!-- Body -->
+    <path d="M-30 80 L-25 40 L-20 0 L20 0 L25 40 L30 80 Z" fill="#475569" stroke="#64748b" stroke-width="2"/>
+    <!-- Head -->
+    <circle cx="0" cy="-20" r="25" fill="#64748b" stroke="#94a3b8" stroke-width="2"/>
+    <!-- Eyes -->
+    <ellipse cx="-8" cy="-20" rx="5" ry="3" fill="#3b82f6" filter="url(#glow)"/>
+    <ellipse cx="8" cy="-20" rx="5" ry="3" fill="#3b82f6" filter="url(#glow)"/>
+    <!-- Shoulders -->
+    <path d="M-50 30 Q-60 20 -50 10 L-25 20 L25 20 L50 10 Q60 20 50 30 L30 50 L-30 50 Z" fill="#334155" stroke="#475569" stroke-width="2"/>
+  </g>
+  
+  <!-- AI Agents orbiting -->
+  <g transform="translate(400, 320)">
+    <!-- Agent 1 -->
+    <g transform="rotate(0) translate(120, 0)">
+      <circle r="20" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" filter="url(#glow)"/>
+      <text x="0" y="5" text-anchor="middle" fill="#8b5cf6" font-size="12" font-family="monospace">AI</text>
+    </g>
+    <!-- Agent 2 -->
+    <g transform="rotate(72) translate(120, 0)">
+      <circle r="20" fill="#1e293b" stroke="#06b6d4" stroke-width="2" filter="url(#glow)"/>
+      <text x="0" y="5" text-anchor="middle" fill="#06b6d4" font-size="12" font-family="monospace">AGENT</text>
+    </g>
+    <!-- Agent 3 -->
+    <g transform="rotate(144) translate(120, 0)">
+      <circle r="20" fill="#1e293b" stroke="#10b981" stroke-width="2" filter="url(#glow)"/>
+      <text x="0" y="5" text-anchor="middle" fill="#10b981" font-size="12" font-family="monospace">BOT</text>
+    </g>
+    <!-- Agent 4 -->
+    <g transform="rotate(216) translate(120, 0)">
+      <circle r="20" fill="#1e293b" stroke="#f59e0b" stroke-width="2" filter="url(#glow)"/>
+      <text x="0" y="5" text-anchor="middle" fill="#f59e0b" font-size="12" font-family="monospace">AGENT</text>
+    </g>
+    <!-- Agent 5 -->
+    <g transform="rotate(288) translate(120, 0)">
+      <circle r="20" fill="#1e293b" stroke="#ef4444" stroke-width="2" filter="url(#glow)"/>
+      <text x="0" y="5" text-anchor="middle" fill="#ef4444" font-size="12" font-family="monospace">AI</text>
+    </g>
+    
+    <!-- Connection lines -->
+    <g stroke="#3b82f6" stroke-width="1" opacity="0.5">
+      <line x1="0" y1="0" x2="120" y2="0"/>
+      <line x1="0" y1="0" x2="37" y2="114"/>
+      <line x1="0" y1="0" x2="-97" y2="70"/>
+      <line x1="0" y1="0" x2="-97" y2="-70"/>
+      <line x1="0" y1="0" x2="37" y2="-114"/>
+    </g>
+  </g>
+  
+  <!-- Code streams -->
+  <g fill="#3b82f6" opacity="0.3" font-family="monospace" font-size="10">
+    <text x="50" y="100">&lt;Agent /&gt;</text>
+    <text x="650" y="150">const AI = new Agent()</text>
+    <text x="100" y="500">await agent.execute()</text>
+    <text x="600" y="450">import { Commander } from 'ai'</text>
+    <text x="80" y="200">async function deploy()</text>
+    <text x="620" y="350">export default config</text>
+  </g>
+  
+  <!-- Title -->
+  <text x="400" y="80" text-anchor="middle" fill="#f8fafc" font-size="32" font-family="system-ui" font-weight="bold">AI Commander</text>
+  <text x="400" y="110" text-anchor="middle" fill="#94a3b8" font-size="16" font-family="system-ui">从码农到 AI 指挥官的转变</text>
+  
+  <!-- Decorative elements -->
+  <circle cx="50" cy="50" r="30" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.3"/>
+  <circle cx="750" cy="550" r="40" fill="none" stroke="#8b5cf6" stroke-width="1" opacity="0.3"/>
+  <circle cx="100" cy="550" r="20" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.3"/>
+</svg>
