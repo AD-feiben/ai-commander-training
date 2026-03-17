@@ -168,6 +168,17 @@ export default function TutorialPage() {
   const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
   const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
 
+  // 移动端自动展开当前章节
+  useEffect(() => {
+    if (currentChapter && window.innerWidth < 768) {
+      setExpandedChapters(prev => {
+        const newSet = new Set(prev);
+        newSet.add(currentChapter.id);
+        return newSet;
+      });
+    }
+  }, [currentChapter, lessonId]);
+
   // 键盘快捷键监听
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
