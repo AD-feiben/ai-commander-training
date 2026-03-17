@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="specGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="codeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bgGrad)"/>
+
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#334155" stroke-width="0.5" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="400" y="50" text-anchor="middle" fill="#f8fafc" font-size="28" font-family="system-ui" font-weight="bold">规范驱动开发 (SDD)</text>
+  <text x="400" y="80" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="system-ui">Specification-Driven Development</text>
+
+  <!-- Traditional Development (Left) -->
+  <g transform="translate(50, 150)">
+    <text x="150" y="0" text-anchor="middle" fill="#64748b" font-size="16" font-weight="bold" font-family="system-ui">传统开发</text>
+    
+    <!-- Code First -->
+    <g transform="translate(0, 30)">
+      <rect x="0" y="0" width="300" height="60" fill="#1e293b" stroke="#475569" stroke-width="2" rx="8"/>
+      <text x="150" y="35" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="system-ui">1. 写代码</text>
+    </g>
+    
+    <g transform="translate(150, 90)">
+      <path d="M0 0 L0 20" stroke="#475569" stroke-width="2" marker-end="url(#arrowDown)"/>
+    </g>
+    
+    <!-- Then Document -->
+    <g transform="translate(0, 110)">
+      <rect x="0" y="0" width="300" height="60" fill="#1e293b" stroke="#475569" stroke-width="2" rx="8"/>
+      <text x="150" y="35" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="system-ui">2. 补文档（可选）</text>
+    </g>
+    
+    <g transform="translate(150, 170)">
+      <path d="M0 0 L0 20" stroke="#475569" stroke-width="2" marker-end="url(#arrowDown)"/>
+    </g>
+    
+    <!-- Issues -->
+    <g transform="translate(0, 190)">
+      <rect x="0" y="0" width="300" height="80" fill="#1e293b" stroke="#ef4444" stroke-width="2" rx="8"/>
+      <text x="150" y="30" text-anchor="middle" fill="#f87171" font-size="12" font-family="system-ui">❌ 需求理解偏差</text>
+      <text x="150" y="50" text-anchor="middle" fill="#f87171" font-size="12" font-family="system-ui">❌ 返工成本高</text>
+      <text x="150" y="70" text-anchor="middle" fill="#f87171" font-size="12" font-family="system-ui">❌ 维护困难</text>
+    </g>
+  </g>
+
+  <!-- VS -->
+  <g transform="translate(400, 300)">
+    <text x="0" y="0" text-anchor="middle" fill="#64748b" font-size="20" font-weight="bold" font-family="system-ui">VS</text>
+  </g>
+
+  <!-- SDD Development (Right) -->
+  <g transform="translate(450, 150)">
+    <text x="150" y="0" text-anchor="middle" fill="#8b5cf6" font-size="16" font-weight="bold" font-family="system-ui">SDD 开发</text>
+    
+    <!-- Spec First -->
+    <g transform="translate(0, 30)">
+      <rect x="0" y="0" width="300" height="60" fill="#1e293b" stroke="url(#specGrad)" stroke-width="2" rx="8" filter="url(#glow)"/>
+      <text x="150" y="35" text-anchor="middle" fill="#f472b6" font-size="14" font-weight="bold" font-family="system-ui">1. 编写规范 (Spec)</text>
+    </g>
+    
+    <g transform="translate(150, 90)">
+      <path d="M0 0 L0 20" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowDown2)"/>
+    </g>
+    
+    <!-- AI Generates Code -->
+    <g transform="translate(0, 110)">
+      <rect x="0" y="0" width="300" height="60" fill="#1e293b" stroke="url(#codeGrad)" stroke-width="2" rx="8" filter="url(#glow)"/>
+      <text x="150" y="35" text-anchor="middle" fill="#22d3ee" font-size="14" font-weight="bold" font-family="system-ui">2. AI 生成代码</text>
+    </g>
+    
+    <g transform="translate(150, 170)">
+      <path d="M0 0 L0 20" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrowDown2)"/>
+    </g>
+    
+    <!-- Benefits -->
+    <g transform="translate(0, 190)">
+      <rect x="0" y="0" width="300" height="80" fill="#1e293b" stroke="#10b981" stroke-width="2" rx="8"/>
+      <text x="150" y="30" text-anchor="middle" fill="#34d399" font-size="12" font-family="system-ui">✅ 需求明确无歧义</text>
+      <text x="150" y="50" text-anchor="middle" fill="#34d399" font-size="12" font-family="system-ui">✅ 一次到位少返工</text>
+      <text x="150" y="70" text-anchor="middle" fill="#34d399" font-size="12" font-family="system-ui">✅ 规范即文档</text>
+    </g>
+  </g>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowDown" markerWidth="10" markerHeight="7" refX="5" refY="7" orient="auto">
+      <polygon points="0 0, 10 0, 5 7" fill="#475569"/>
+    </marker>
+    <marker id="arrowDown2" markerWidth="10" markerHeight="7" refX="5" refY="7" orient="auto">
+      <polygon points="0 0, 10 0, 5 7" fill="#8b5cf6"/>
+    </marker>
+  </defs>
+
+  <!-- Core Concept -->
+  <g transform="translate(400, 480)">
+    <rect x="-350" y="0" width="700" height="80" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="12"/>
+    <text x="0" y="30" text-anchor="middle" fill="#fbbf24" font-size="16" font-weight="bold" font-family="system-ui">核心理念</text>
+    <text x="0" y="55" text-anchor="middle" fill="#fcd34d" font-size="14" font-family="system-ui">代码只是规范的「实现」，规范才是「本质」</text>
+  </g>
+
+  <!-- Decorative elements -->
+  <circle cx="50" cy="100" r="25" fill="none" stroke="#8b5cf6" stroke-width="1" opacity="0.3"/>
+  <circle cx="750" cy="550" r="30" fill="none" stroke="#ec4899" stroke-width="1" opacity="0.3"/>
+  <circle cx="100" cy="580" r="20" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.3"/>
+</svg>
