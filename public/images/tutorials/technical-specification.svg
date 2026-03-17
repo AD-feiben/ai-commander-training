@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bgGrad)"/>
+
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#334155" stroke-width="0.5" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="400" y="50" text-anchor="middle" fill="#f8fafc" font-size="28" font-family="system-ui" font-weight="bold">技术规范六要素</text>
+  <text x="400" y="80" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="system-ui">写好规范的完整框架</text>
+
+  <!-- Elements Grid -->
+  
+  <!-- 1. 背景与目标 -->
+  <g transform="translate(50, 120)">
+    <rect x="0" y="0" width="230" height="130" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" rx="8" filter="url(#glow)"/>
+    <text x="115" y="30" text-anchor="middle" fill="#f472b6" font-size="14" font-weight="bold" font-family="system-ui">1. 背景与目标</text>
+    <text x="115" y="55" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 业务背景</text>
+    <text x="115" y="75" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 目标定义</text>
+    <text x="115" y="95" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 成功标准</text>
+    <text x="115" y="115" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">Why + What</text>
+  </g>
+
+  <!-- 2. 功能描述 -->
+  <g transform="translate(300, 120)">
+    <rect x="0" y="0" width="230" height="130" fill="#1e293b" stroke="#3b82f6" stroke-width="2" rx="8" filter="url(#glow)"/>
+    <text x="115" y="30" text-anchor="middle" fill="#60a5fa" font-size="14" font-weight="bold" font-family="system-ui">2. 功能描述</text>
+    <text x="115" y="55" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 清晰无歧义</text>
+    <text x="115" y="75" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 步骤化描述</text>
+    <text x="115" y="95" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 用户场景</text>
+    <text x="115" y="115" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">What to do</text>
+  </g>
+
+  <!-- 3. 输入定义 -->
+  <g transform="translate(550, 120)">
+    <rect x="0" y="0" width="230" height="130" fill="#1e293b" stroke="#06b6d4" stroke-width="2" rx="8" filter="url(#glow)"/>
+    <text x="115" y="30" text-anchor="middle" fill="#22d3ee" font-size="14" font-weight="bold" font-family="system-ui">3. 输入定义</text>
+    <text x="115" y="55" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 参数类型</text>
+    <text x="115" y="75" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 验证规则</text>
+    <text x="115" y="95" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 必填/可选</text>
+    <text x="115" y="115" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">Input Spec</text>
+  </g>
+
+  <!-- 4. 输出定义 -->
+  <g transform="translate(50, 270)">
+    <rect x="0" y="0" width="230" height="130" fill="#1e293b" stroke="#10b981" stroke-width="2" rx="8" filter="url(#glow)"/>
+    <text x="115" y="30" text-anchor="middle" fill="#34d399" font-size="14" font-weight="bold" font-family="system-ui">4. 输出定义</text>
+    <text x="115" y="55" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 成功响应</text>
+    <text x="115" y="75" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 错误处理</text>
+    <text x="115" y="95" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 状态码</text>
+    <text x="115" y="115" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">Output Spec</text>
+  </g>
+
+  <!-- 5. 边界条件 -->
+  <g transform="translate(300, 270)">
+    <rect x="0" y="0" width="230" height="130" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="8" filter="url(#glow)"/>
+    <text x="115" y="30" text-anchor="middle" fill="#fbbf24" font-size="14" font-weight="bold" font-family="system-ui">5. 边界条件</text>
+    <text x="115" y="55" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 空值处理</text>
+    <text x="115" y="75" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 极限值</text>
+    <text x="115" y="95" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 异常流程</text>
+    <text x="115" y="115" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">Edge Cases</text>
+  </g>
+
+  <!-- 6. 非功能需求 -->
+  <g transform="translate(550, 270)">
+    <rect x="0" y="0" width="230" height="130" fill="#1e293b" stroke="#ef4444" stroke-width="2" rx="8" filter="url(#glow)"/>
+    <text x="115" y="30" text-anchor="middle" fill="#f87171" font-size="14" font-weight="bold" font-family="system-ui">6. 非功能需求</text>
+    <text x="115" y="55" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 性能要求</text>
+    <text x="115" y="75" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 安全要求</text>
+    <text x="115" y="95" text-anchor="middle" fill="#cbd5e1" font-size="11" font-family="system-ui">• 兼容性</text>
+    <text x="115" y="115" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">NFRs</text>
+  </g>
+
+  <!-- 5W2H Section -->
+  <g transform="translate(50, 430)">
+    <rect x="0" y="0" width="730" height="140" fill="#1e293b" stroke="#475569" stroke-width="1" rx="8"/>
+    <text x="365" y="25" text-anchor="middle" fill="#f8fafc" font-size="14" font-weight="bold" font-family="system-ui">5W2H 原则</text>
+    
+    <!-- 5W -->
+    <g transform="translate(20, 45)">
+      <text x="0" y="0" fill="#8b5cf6" font-size="11" font-weight="bold" font-family="system-ui">What</text>
+      <text x="0" y="15" fill="#94a3b8" font-size="10" font-family="system-ui">做什么</text>
+    </g>
+    <g transform="translate(80, 45)">
+      <text x="0" y="0" fill="#3b82f6" font-size="11" font-weight="bold" font-family="system-ui">Why</text>
+      <text x="0" y="15" fill="#94a3b8" font-size="10" font-family="system-ui">为什么</text>
+    </g>
+    <g transform="translate(140, 45)">
+      <text x="0" y="0" fill="#06b6d4" font-size="11" font-weight="bold" font-family="system-ui">Who</text>
+      <text x="0" y="15" fill="#94a3b8" font-size="10" font-family="system-ui">谁使用</text>
+    </g>
+    <g transform="translate(200, 45)">
+      <text x="0" y="0" fill="#10b981" font-size="11" font-weight="bold" font-family="system-ui">When</text>
+      <text x="0" y="15" fill="#94a3b8" font-size="10" font-family="system-ui">何时用</text>
+    </g>
+    <g transform="translate(270, 45)">
+      <text x="0" y="0" fill="#f59e0b" font-size="11" font-weight="bold" font-family="system-ui">Where</text>
+      <text x="0" y="15" fill="#94a3b8" font-size="10" font-family="system-ui">在哪里</text>
+    </g>
+    
+    <!-- 2H -->
+    <g transform="translate(350, 45)">
+      <text x="0" y="0" fill="#ef4444" font-size="11" font-weight="bold" font-family="system-ui">How</text>
+      <text x="0" y="15" fill="#94a3b8" font-size="10" font-family="system-ui">如何实现</text>
+    </g>
+    <g transform="translate(430, 45)">
+      <text x="0" y="0" fill="#ec4899" font-size="11" font-weight="bold" font-family="system-ui">How much</text>
+      <text x="0" y="15" fill="#94a3b8" font-size="10" font-family="system-ui">成本限制</text>
+    </g>
+
+    <!-- Bottom tip -->
+    <text x="365" y="105" text-anchor="middle" fill="#64748b" font-size="11" font-family="system-ui">好的规范应该像一份精确的地图，让 AI 能够准确无误地到达目的地</text>
+  </g>
+
+  <!-- Decorative elements -->
+  <circle cx="40" cy="100" r="20" fill="none" stroke="#8b5cf6" stroke-width="1" opacity="0.3"/>
+  <circle cx="760" cy="550" r="25" fill="none" stroke="#ec4899" stroke-width="1" opacity="0.3"/>
+  <circle cx="90" cy="580" r="15" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.3"/>
+</svg>
