@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bgGrad)"/>
+
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#334155" stroke-width="0.5" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="400" y="50" text-anchor="middle" fill="#f8fafc" font-size="28" font-family="system-ui" font-weight="bold">任务分解四层原则</text>
+  <text x="400" y="80" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="system-ui">让 AI 高效执行的关键</text>
+
+  <!-- Four Principles -->
+  
+  <!-- 1. Actionable -->
+  <g transform="translate(50, 120)">
+    <rect x="0" y="0" width="350" height="180" fill="#1e293b" stroke="#3b82f6" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="175" y="35" text-anchor="middle" fill="#60a5fa" font-size="16" font-weight="bold" font-family="system-ui">1. 可执行原则</text>
+    <text x="175" y="60" text-anchor="middle" fill="#94a3b8" font-size="12" font-family="system-ui">Actionable</text>
+    
+    <text x="20" y="90" fill="#f87171" font-size="11" font-family="system-ui">❌ "实现用户系统"</text>
+    <text x="20" y="115" fill="#4ade80" font-size="11" font-family="system-ui">✅ "实现用户注册接口"</text>
+    <text x="20" y="140" fill="#cbd5e1" font-size="10" font-family="system-ui">每个子任务都可以独立执行</text>
+  </g>
+
+  <!-- 2. Complete -->
+  <g transform="translate(400, 120)">
+    <rect x="0" y="0" width="350" height="180" fill="#1e293b" stroke="#10b981" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="175" y="35" text-anchor="middle" fill="#34d399" font-size="16" font-weight="bold" font-family="system-ui">2. 完整性原则</text>
+    <text x="175" y="60" text-anchor="middle" fill="#94a3b8" font-size="12" font-family="system-ui">Complete</text>
+    
+    <text x="20" y="90" fill="#f87171" font-size="11" font-family="system-ui">❌ 遗漏订单模块</text>
+    <text x="20" y="115" fill="#4ade80" font-size="11" font-family="system-ui">✅ 覆盖所有需求</text>
+    <text x="20" y="140" fill="#cbd5e1" font-size="10" font-family="system-ui">分解后的子任务覆盖全部需求</text>
+  </g>
+
+  <!-- 3. Mutually Exclusive -->
+  <g transform="translate(50, 320)">
+    <rect x="0" y="0" width="350" height="180" fill="#1e293b" stroke="#f59e0b" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="175" y="35" text-anchor="middle" fill="#fbbf24" font-size="16" font-weight="bold" font-family="system-ui">3. 互斥性原则</text>
+    <text x="175" y="60" text-anchor="middle" fill="#94a3b8" font-size="12" font-family="system-ui">Mutually Exclusive</text>
+    
+    <text x="20" y="90" fill="#f87171" font-size="11" font-family="system-ui">❌ 权限和角色重叠</text>
+    <text x="20" y="115" fill="#4ade80" font-size="11" font-family="system-ui">✅ 认证/授权/资料分离</text>
+    <text x="20" y="140" fill="#cbd5e1" font-size="10" font-family="system-ui">子任务之间不重叠</text>
+  </g>
+
+  <!-- 4. Dependencies Clear -->
+  <g transform="translate(400, 320)">
+    <rect x="0" y="0" width="350" height="180" fill="#1e293b" stroke="#ec4899" stroke-width="2" rx="12" filter="url(#glow)"/>
+    <text x="175" y="35" text-anchor="middle" fill="#f472b6" font-size="16" font-weight="bold" font-family="system-ui">4. 依赖明确原则</text>
+    <text x="175" y="60" text-anchor="middle" fill="#94a3b8" font-size="12" font-family="system-ui">Dependencies Clear</text>
+    
+    <text x="20" y="90" fill="#f87171" font-size="11" font-family="system-ui">❌ 先做订单后做用户</text>
+    <text x="20" y="115" fill="#4ade80" font-size="11" font-family="system-ui">✅ 用户 → 商品 → 订单</text>
+    <text x="20" y="140" fill="#cbd5e1" font-size="10" font-family="system-ui">明确的任务依赖关系</text>
+  </g>
+
+  <!-- Bottom tip -->
+  <text x="400" y="540" text-anchor="middle" fill="#64748b" font-size="12" font-family="system-ui">复杂任务就像一团乱麻，分解任务就是把乱麻理顺，让 AI 可以逐根处理</text>
+
+  <!-- Decorative elements -->
+  <circle cx="40" cy="100" r="20" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.3"/>
+  <circle cx="760" cy="550" r="25" fill="none" stroke="#ec4899" stroke-width="1" opacity="0.3"/>
+  <circle cx="90" cy="580" r="15" fill="none" stroke="#10b981" stroke-width="1" opacity="0.3"/>
+</svg>
