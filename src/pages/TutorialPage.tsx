@@ -60,8 +60,14 @@ export default function TutorialPage() {
   const navigate = useNavigate();
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  
+  // 根据屏幕宽度设置侧边栏默认状态：桌面端展开，移动端收起
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth >= 768;
+    }
+    return true;
+  });
+
   // 章节折叠状态：默认全部展开
   const [expandedChapters, setExpandedChapters] = useState<Set<string>>(
     () => new Set(tutorialChapters.map(c => c.id))
