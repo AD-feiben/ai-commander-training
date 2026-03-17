@@ -561,10 +561,10 @@ export default function TutorialPage() {
         fixed inset-y-0 left-0 z-40 w-80 overflow-y-auto border-r ${isDark ? 'border-zinc-200/10' : 'border-gray-200'} bg-inherit backdrop-blur-sm transition-transform pt-16 md:pt-12 pb-8
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        {/* 展开/收起侧边栏按钮 */}
+        {/* 展开/收起侧边栏按钮 - 仅在桌面端显示 */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className={`absolute -right-3 top-20 w-6 h-12 rounded-r-lg border ${isDark ? 'border-zinc-700 bg-zinc-800 text-zinc-400 hover:text-zinc-200' : 'border-gray-200 bg-white text-gray-400 hover:text-gray-600'} shadow-md flex items-center justify-center transition-all hover:scale-110`}
+          className={`hidden md:flex absolute -right-3 top-20 w-6 h-12 rounded-r-lg border ${isDark ? 'border-zinc-700 bg-zinc-800 text-zinc-400 hover:text-zinc-200' : 'border-gray-200 bg-white text-gray-400 hover:text-gray-600'} shadow-md items-center justify-center transition-all hover:scale-110`}
           title={sidebarOpen ? (isZh ? '收起目录' : 'Collapse') : (isZh ? '展开目录' : 'Expand')}
         >
           <ChevronRightIcon 
@@ -681,11 +681,11 @@ export default function TutorialPage() {
         </div>
       </aside>
 
-      {/* 侧边栏收起时的展开按钮 */}
+      {/* 侧边栏收起时的展开按钮 - 仅在桌面端显示 */}
       {!sidebarOpen && (
         <button
           onClick={() => setSidebarOpen(true)}
-          className={`fixed left-0 top-20 z-30 w-6 h-12 rounded-r-lg border ${isDark ? 'border-zinc-700 bg-zinc-800 text-zinc-400 hover:text-zinc-200' : 'border-gray-200 bg-white text-gray-400 hover:text-gray-600'} shadow-md flex items-center justify-center transition-all hover:scale-110`}
+          className={`hidden md:flex fixed left-0 top-20 z-30 w-6 h-12 rounded-r-lg border ${isDark ? 'border-zinc-700 bg-zinc-800 text-zinc-400 hover:text-zinc-200' : 'border-gray-200 bg-white text-gray-400 hover:text-gray-600'} shadow-md items-center justify-center transition-all hover:scale-110`}
           title={isZh ? '展开目录' : 'Expand'}
         >
           <ChevronRightIcon size={14} />
