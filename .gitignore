@@ -53,3 +53,6 @@ coverage
 *.tmp
 *.temp
 .cache
+
+# 开发文档
+DEVELOPMENT_NOTES.md

@@ -5,7 +5,7 @@
   "description": "AI Commander Training Camp - Learn to become an AI Commander",
   "author": "AD-feiben",
   "type": "module",
-  "homepage": "https://AD-feiben.github.io/ai-commander-training",
+  "homepage": "https://ai-commander-training.netlify.app/",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -16,12 +16,15 @@
   "dependencies": {
     "@giscus/react": "^3.1.0",
     "lucide-react": "^0.577.0",
+    "mermaid": "^11.13.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.13.1",
     "react-syntax-highlighter": "^16.1.1",
+    "rehype-mermaid": "^3.0.0",
     "remark-gfm": "^4.0.1",
+    "yet-another-react-lightbox": "^3.29.1",
     "zustand": "^5.0.11"
   },
   "devDependencies": {

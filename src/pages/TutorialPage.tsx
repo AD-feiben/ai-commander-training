@@ -2,15 +2,78 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import mermaid from 'mermaid';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { ChevronLeft, ChevronRight, CheckCircle, Circle, Menu, X, Sparkles, ArrowLeft, Globe, ChevronDown, ChevronRight as ChevronRightIcon, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CheckCircle, Circle, Menu, X, Sparkles, ArrowLeft, Globe, ChevronDown, ChevronRight as ChevronRightIcon, Search, Copy, Check } from 'lucide-react';
+import Lightbox from 'yet-another-react-lightbox';
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+import Captions from 'yet-another-react-lightbox/plugins/captions';
+import 'yet-another-react-lightbox/styles.css';
+import 'yet-another-react-lightbox/plugins/captions.css';
 import { tutorialChapters, getLessonById, getChapterByLessonId, getAllLessons } from '../data/tutorials';
 import { useSettingsStore, useProgressStore, getShortcutDisplay } from '../store';
 import { useTranslation } from '../hooks/useTranslation';
 import { Link } from 'react-router-dom';
 import GiscusComments from '../components/GiscusComments';
 import SkeletonLoader from '../components/SkeletonLoader';
+
+interface CodeBlockProps {
+  codeString: string;
+  language: string;
+  isDark: boolean;
+  children: React.ReactNode;
+  style?: Record<string, unknown>;
+}
+
+function CodeBlock({ codeString, language, isDark, children: _children }: CodeBlockProps) {
+  const [copied, setCopied] = useState(false);
+
+  const displayLanguage = language;
+  const syntaxLanguage = language === 'markdown' ? 'text' : language;
+
+  return (
+    <div className="relative group">
+      {displayLanguage && syntaxLanguage === 'text' && (
+        <div className={`absolute top-3 left-3 px-2 py-1 rounded text-xs font-medium ${
+          isDark ? 'bg-zinc-700 text-zinc-400' : 'bg-gray-200 text-gray-600'
+        }`}>
+          {displayLanguage}
+        </div>
+      )}
+      <SyntaxHighlighter
+        style={vscDarkPlus as typeof vscDarkPlus}
+        language={syntaxLanguage}
+        PreTag="div"
+        customStyle={{
+          margin: '1.5rem 0',
+          borderRadius: '12px',
+          border: isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+          background: '#1e1e1e',
+          boxShadow: isDark ? 'none' : '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+          paddingTop: displayLanguage && syntaxLanguage === 'text' ? '2.5rem' : '1em',
+        }}
+      >
+        {codeString}
+      </SyntaxHighlighter>
+      <button
+        onClick={() => {
+          navigator.clipboard.writeText(codeString);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        }}
+        className={`absolute top-3 right-3 p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all cursor-pointer ${
+          isDark
+            ? 'bg-zinc-700 hover:bg-zinc-600 text-zinc-300'
+            : 'bg-gray-200 hover:bg-gray-300 text-gray-600'
+        }`}
+        title="复制代码"
+      >
+        {copied ? <Check size={16} className="text-emerald-500" /> : <Copy size={16} />}
+      </button>
+    </div>
+  );
+}
 
 // 快捷键匹配函数
 const matchShortcut = (e: KeyboardEvent, shortcut: string): boolean => {
@@ -68,9 +131,9 @@ export default function TutorialPage() {
     return true;
   });
 
-  // 章节折叠状态：默认全部展开
+  // 章节折叠状态：根据当前课程自动展开对应章节
   const [expandedChapters, setExpandedChapters] = useState<Set<string>>(
-    () => new Set(tutorialChapters.map(c => c.id))
+    () => new Set()
   );
 
   // 搜索状态
@@ -78,6 +141,10 @@ export default function TutorialPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // 图片预览状态
+  const [previewIndex, setPreviewIndex] = useState(-1);
+  const [imageList, setImageList] = useState<{ src: string; alt: string }[]>([]);
 
   const t = useTranslation();
   const language = useSettingsStore((state) => state.language);
@@ -141,8 +208,8 @@ export default function TutorialPage() {
   const selectResult = useCallback((match: SearchMatch) => {
     navigate(`/tutorial/${match.lessonId}`);
     closeSearch();
-    // 自动展开包含选中课程的章节
-    setExpandedChapters(prev => new Set([...prev, match.chapterId]));
+    // 自动展开包含选中课程的章节（VitePress 风格）
+    setExpandedChapters(new Set([match.chapterId]));
   }, [navigate, closeSearch]);
   
   // 监听系统主题变化
@@ -174,16 +241,28 @@ export default function TutorialPage() {
   const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
   const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
 
-  // 移动端自动展开当前章节
+  // 自动展开当前章节（VitePress 风格：只展开当前章节，其他收起）
   useEffect(() => {
-    if (currentChapter && window.innerWidth < 768) {
-      setExpandedChapters(prev => {
-        const newSet = new Set(prev);
-        newSet.add(currentChapter.id);
-        return newSet;
-      });
+    if (currentChapter) {
+      setExpandedChapters(new Set([currentChapter.id]));
     }
-  }, [currentChapter, lessonId]);
+  }, [currentChapter]);
+
+  // 监听窗口大小变化，自动切换侧边栏状态
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768 && sidebarOpen) {
+        // 屏幕缩小到移动端时自动关闭侧边栏
+        setSidebarOpen(false);
+      } else if (window.innerWidth >= 768 && !sidebarOpen) {
+        // 屏幕变大到桌面端时自动打开侧边栏
+        setSidebarOpen(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [sidebarOpen]);
 
   // 键盘快捷键监听
   useEffect(() => {
@@ -260,7 +339,31 @@ export default function TutorialPage() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [searchOpen, searchResults, selectedIndex, sidebarOpen, prevLesson, nextLesson, navigate, openSearch, closeSearch, selectResult]);
+  }, [searchOpen, searchResults, selectedIndex, sidebarOpen, prevLesson, nextLesson, navigate, openSearch, closeSearch, selectResult, shortcuts]);
+
+  // 初始化 Mermaid
+  useEffect(() => {
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: isDark ? 'dark' : 'default',
+      securityLevel: 'loose',
+      fontFamily: 'inherit',
+    });
+  }, [isDark]);
+
+  // 渲染 Mermaid 图表
+  useEffect(() => {
+    if (!loading && content) {
+      // 延迟执行以确保 DOM 已更新
+      setTimeout(() => {
+        mermaid.run({
+          querySelector: '.mermaid',
+        }).catch((err) => {
+          console.error('Mermaid rendering error:', err);
+        });
+      }, 100);
+    }
+  }, [content, loading, isDark]);
 
   useEffect(() => {
     if (lessonId) {
@@ -268,10 +371,10 @@ export default function TutorialPage() {
       setLoading(true);
       // 根据语言加载对应文件
       const baseFile = currentLesson?.file || '';
-      const langFile = language === 'en' 
+      const langFile = language === 'en'
         ? baseFile.replace('.md', '.en.md')
         : baseFile;
-      
+
       fetch(langFile)
         .then(res => {
           if (!res.ok && language === 'en') {
@@ -282,7 +385,7 @@ export default function TutorialPage() {
         })
         .then(res => res.text())
         .then(text => setContent(text))
-        .catch(() => setContent(language === 'en' 
+        .catch(() => setContent(language === 'en'
           ? '# Tutorial Loading Failed\n\nPlease check if the file path is correct.'
           : '# 教程加载失败\n\n请检查文件路径是否正确。'
         ))
@@ -290,19 +393,34 @@ export default function TutorialPage() {
     }
   }, [lessonId, currentLesson, setCurrentLesson, language]);
 
+  // 从markdown内容中提取所有图片
+  useEffect(() => {
+    if (content) {
+      const imageRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
+      const images: { src: string; alt: string }[] = [];
+      let match;
+      while ((match = imageRegex.exec(content)) !== null) {
+        images.push({ alt: match[1], src: match[2] });
+      }
+      setImageList(images);
+    }
+  }, [content]);
+
+  const isCompleted = useCallback((id: string) => completedLessons.includes(id), [completedLessons]);
+
   // 自动标记完成：当用户滚动到底部时
   useEffect(() => {
     if (!lessonId || loading || isCompleted(lessonId)) return;
 
     let scrollTimeout: ReturnType<typeof setTimeout>;
-    
+
     const handleScroll = () => {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         const scrollTop = window.scrollY || document.documentElement.scrollTop;
         const scrollHeight = document.documentElement.scrollHeight;
         const clientHeight = window.innerHeight;
-        
+
         // 当滚动到距离底部 100px 以内时，自动标记完成
         if (scrollTop + clientHeight >= scrollHeight - 100) {
           markLessonComplete(lessonId);
@@ -315,35 +433,9 @@ export default function TutorialPage() {
       window.removeEventListener('scroll', handleScroll);
       clearTimeout(scrollTimeout);
     };
-  }, [lessonId, loading, markLessonComplete]);
+  }, [lessonId, loading, markLessonComplete, isCompleted]);
 
-  const isCompleted = (id: string) => completedLessons.includes(id);
-
-  // 切换章节折叠状态
-  const toggleChapter = (chapterId: string) => {
-    setExpandedChapters(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(chapterId)) {
-        newSet.delete(chapterId);
-      } else {
-        newSet.add(chapterId);
-      }
-      return newSet;
-    });
-  };
-
-  // 展开所有章节
-  const expandAllChapters = () => {
-    setExpandedChapters(new Set(tutorialChapters.map(c => c.id)));
-  };
-
-  // 折叠所有章节
-  const collapseAllChapters = () => {
-    setExpandedChapters(new Set());
-  };
-
-  // Theme-aware styles
-  const styles = {
+  const styles = useMemo(() => ({
     h1: isDark ? 'text-2xl font-bold text-zinc-100 mt-10 mb-5 pb-3 border-b border-zinc-800' : 'text-2xl font-bold text-gray-900 mt-10 mb-5 pb-3 border-b border-gray-200',
     h2: isDark ? 'text-xl font-bold text-zinc-200 mt-8 mb-4' : 'text-xl font-bold text-gray-800 mt-8 mb-4',
     h3: isDark ? 'text-lg font-semibold text-zinc-300 mt-6 mb-3' : 'text-lg font-semibold text-gray-700 mt-6 mb-3',
@@ -351,43 +443,42 @@ export default function TutorialPage() {
     ul: isDark ? 'text-zinc-300 my-5 ml-5 list-disc space-y-2' : 'text-gray-700 my-5 ml-5 list-disc space-y-2',
     ol: isDark ? 'text-zinc-300 my-5 ml-5 list-decimal space-y-2' : 'text-gray-700 my-5 ml-5 list-decimal space-y-2',
     li: isDark ? 'leading-7 text-zinc-300' : 'leading-7 text-gray-700',
-    blockquote: isDark 
-      ? 'border-l-4 border-emerald-500 pl-5 my-6 text-zinc-400 italic bg-zinc-900/30 py-3 pr-4 rounded-r-lg' 
+    blockquote: isDark
+      ? 'border-l-4 border-emerald-500 pl-5 my-6 text-zinc-400 italic bg-zinc-900/30 py-3 pr-4 rounded-r-lg'
       : 'border-l-4 border-emerald-500 pl-5 my-6 text-gray-600 italic bg-gray-100 py-3 pr-4 rounded-r-lg',
     a: isDark ? 'text-emerald-400 hover:text-emerald-300 underline underline-offset-2' : 'text-emerald-600 hover:text-emerald-700 underline underline-offset-2',
-    table: isDark 
-      ? 'overflow-x-auto my-6 rounded-xl border border-zinc-700' 
+    table: isDark
+      ? 'overflow-x-auto my-6 rounded-xl border border-zinc-700'
       : 'overflow-x-auto my-6 rounded-xl border border-gray-300',
     tableInner: isDark ? 'w-full border-collapse border border-zinc-700' : 'w-full border-collapse border border-gray-300',
     thead: isDark ? 'bg-zinc-800/80' : 'bg-gray-100',
     tr: isDark ? 'border-b border-zinc-700 last:border-b-0' : 'border-b border-gray-300 last:border-b-0',
-    th: isDark 
-      ? 'border border-zinc-700 px-4 py-3 text-zinc-200 text-left text-sm font-semibold' 
+    th: isDark
+      ? 'border border-zinc-700 px-4 py-3 text-zinc-200 text-left text-sm font-semibold'
       : 'border border-gray-300 px-4 py-3 text-gray-800 text-left text-sm font-semibold',
-    td: isDark 
-      ? 'border border-zinc-700/50 px-4 py-3 text-zinc-300 text-sm' 
+    td: isDark
+      ? 'border border-zinc-700/50 px-4 py-3 text-zinc-300 text-sm'
       : 'border border-gray-300 px-4 py-3 text-gray-700 text-sm',
     hr: isDark ? 'my-10 border-zinc-800' : 'my-10 border-gray-200',
     strong: isDark ? 'text-zinc-200 font-semibold' : 'text-gray-900 font-semibold',
-  };
+  }), [isDark]);
 
-  // 高亮匹配文本
-  const highlightMatch = (text: string, query: string) => {
+  const highlightMatch = useCallback((text: string, query: string) => {
     if (!query.trim()) return text;
     const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
     const parts = text.split(regex);
-    return parts.map((part, i) => 
-      regex.test(part) ? 
-        <mark key={i} className={isDark ? 'bg-emerald-500/30 text-emerald-300' : 'bg-emerald-200 text-emerald-800'}>{part}</mark> : 
+    return parts.map((part, i) =>
+      regex.test(part) ?
+        <mark key={i} className={isDark ? 'bg-emerald-500/30 text-emerald-300' : 'bg-emerald-200 text-emerald-800'}>{part}</mark> :
         part
     );
-  };
+  }, [isDark]);
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-zinc-950 text-zinc-100' : 'bg-white text-gray-900'}`}>
       {/* 搜索对话框 */}
       {searchOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-[100] flex items-start justify-center pt-[20vh] bg-black/50 backdrop-blur-sm"
           onClick={(e) => {
             if (e.target === e.currentTarget) closeSearch();
@@ -427,7 +518,7 @@ export default function TutorialPage() {
                       key={match.lessonId}
                       onClick={() => selectResult(match)}
                       onMouseEnter={() => setSelectedIndex(index)}
-                      className={`w-full text-left px-4 py-3 transition-colors ${
+                      className={`w-full text-left px-4 py-3 transition-colors cursor-pointer ${
                         index === selectedIndex
                           ? isDark ? 'bg-zinc-800' : 'bg-gray-100'
                           : 'hover:bg-zinc-800/50 hover:bg-gray-50'
@@ -474,17 +565,46 @@ export default function TutorialPage() {
         </div>
       )}
 
+      {/* 图片预览 */}
+      <Lightbox
+        open={previewIndex >= 0}
+        close={() => setPreviewIndex(-1)}
+        index={previewIndex}
+        slides={imageList.map(img => ({ src: img.src, alt: img.alt }))}
+        on={{ view: ({ index }) => setPreviewIndex(index) }}
+        plugins={[Zoom, Captions]}
+        toolbar={{ buttons: ['close', 'zoom'] }}
+        styles={{ container: { backgroundColor: 'rgba(0, 0, 0, 0.9)' } }}
+        carousel={{ padding: 0 }}
+        zoom={{
+          minZoom: 0.5,
+          maxZoomPixelRatio: 4,
+          scrollToZoom: true,
+        }}
+      />
+
+      {/* 图片预览提示 */}
+      {previewIndex >= 0 && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[101] px-4 py-2 bg-black/70 rounded-lg text-white text-sm flex items-center gap-4 pointer-events-none">
+          <span>滚轮缩放</span>
+          <span className="text-zinc-500">|</span>
+          <span>双击放大</span>
+          <span className="text-zinc-500">|</span>
+          <span>← → 切换</span>
+        </div>
+      )}
+
       {/* Mobile Header */}
       <header className={`fixed top-0 left-0 right-0 z-50 md:hidden bg-inherit border-b ${isDark ? 'border-zinc-200/10' : 'border-gray-200'} backdrop-blur-lg`}>
         <div className="flex items-center justify-between px-4 py-3">
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 -ml-2">
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 -ml-2 cursor-pointer">
             {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2 cursor-pointer">
             <Sparkles className="w-5 h-5 text-emerald-500" />
             <span className="font-bold">AI Commander</span>
           </Link>
-          <Link to="/settings" className="p-2 -mr-2">
+          <Link to="/settings" className="p-2 -mr-2 cursor-pointer">
             <span className="text-sm">⚙️</span>
           </Link>
         </div>
@@ -493,7 +613,7 @@ export default function TutorialPage() {
       {/* Desktop Header */}
       <header className={`hidden md:flex fixed top-0 left-0 right-0 z-50 bg-inherit border-b ${isDark ? 'border-zinc-200/10' : 'border-gray-200'} backdrop-blur-lg px-6 py-3 items-center justify-between`}>
         <div className="flex items-center gap-6">
-          <Link to="/" className="flex items-center gap-2 hover:text-emerald-500 transition-colors">
+          <Link to="/" className="flex items-center gap-2 hover:text-emerald-500 transition-colors cursor-pointer">
             <Sparkles className="w-5 h-5 text-emerald-500" />
             <span className="font-bold">AI Commander</span>
           </Link>
@@ -508,7 +628,7 @@ export default function TutorialPage() {
           {/* 搜索按钮 */}
           <button
             onClick={openSearch}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer ${
               isDark
                 ? 'hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200'
                 : 'hover:bg-gray-100 text-gray-500 hover:text-gray-700'
@@ -525,7 +645,7 @@ export default function TutorialPage() {
           {/* 语言切换 - 下拉选择 */}
           <div className="relative group">
             <button
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-colors ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-colors cursor-pointer ${
                 isDark 
                   ? 'hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200' 
                   : 'hover:bg-gray-100 text-gray-500 hover:text-gray-700'
@@ -543,7 +663,7 @@ export default function TutorialPage() {
             }`}>
               <button
                 onClick={() => setLanguage('zh')}
-                className={`w-full text-left px-4 py-2 text-sm first:rounded-t-lg last:rounded-b-lg transition-colors ${
+                className={`w-full text-left px-4 py-2 text-sm first:rounded-t-lg last:rounded-b-lg transition-colors cursor-pointer ${
                   language === 'zh' 
                     ? 'bg-emerald-500/10 text-emerald-600' 
                     : isDark 
@@ -555,7 +675,7 @@ export default function TutorialPage() {
               </button>
               <button
                 onClick={() => setLanguage('en')}
-                className={`w-full text-left px-4 py-2 text-sm first:rounded-t-lg last:rounded-b-lg transition-colors ${
+                className={`w-full text-left px-4 py-2 text-sm first:rounded-t-lg last:rounded-b-lg transition-colors cursor-pointer ${
                   language === 'en' 
                     ? 'bg-emerald-500/10 text-emerald-600' 
                     : isDark 
@@ -567,7 +687,7 @@ export default function TutorialPage() {
               </button>
             </div>
           </div>
-          <Link to="/settings" className="text-sm hover:text-emerald-500 transition-colors">
+          <Link to="/settings" className="text-sm hover:text-emerald-500 transition-colors cursor-pointer">
             ⚙️ {t.nav.settings}
           </Link>
         </div>
@@ -578,49 +698,21 @@ export default function TutorialPage() {
         fixed inset-y-0 left-0 z-40 w-80 overflow-y-auto border-r ${isDark ? 'border-zinc-200/10' : 'border-gray-200'} bg-inherit backdrop-blur-sm transition-transform pt-16 md:pt-12 pb-8
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        {/* 展开/收起侧边栏按钮 - 仅在桌面端显示 */}
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className={`hidden md:flex absolute -right-3 top-20 w-6 h-12 rounded-r-lg border ${isDark ? 'border-zinc-700 bg-zinc-800 text-zinc-400 hover:text-zinc-200' : 'border-gray-200 bg-white text-gray-400 hover:text-gray-600'} shadow-md items-center justify-center transition-all hover:scale-110`}
-          title={sidebarOpen ? (isZh ? '收起目录' : 'Collapse') : (isZh ? '展开目录' : 'Expand')}
-        >
-          <ChevronRightIcon 
-            size={14} 
-            className={`transition-transform duration-200 ${sidebarOpen ? 'rotate-180' : ''}`}
-          />
-        </button>
         <div className="p-4">
           {/* Back to home */}
           <Link 
             to="/" 
-            className={`flex items-center gap-2 text-sm ${isDark ? 'text-zinc-500 hover:text-zinc-300' : 'text-gray-500 hover:text-gray-700'} mb-4 px-2`}
+            className={`flex items-center gap-2 text-sm ${isDark ? 'text-zinc-500 hover:text-zinc-300' : 'text-gray-500 hover:text-gray-700'} mb-4 px-2 cursor-pointer`}
           >
             <ArrowLeft size={14} />
             {isZh ? '返回首页' : 'Back to Home'}
           </Link>
 
-          {/* Chapter list header with expand/collapse button */}
-          <div className={`flex items-center justify-between mb-4 px-2`}>
+          {/* Chapter list header */}
+          <div className={`mb-4 px-2`}>
             <span className={`text-xs uppercase tracking-wider ${isDark ? 'text-zinc-500' : 'text-gray-500'}`}>
               {isZh ? '课程目录' : 'Curriculum'}
             </span>
-            <button
-              onClick={expandedChapters.size === tutorialChapters.length ? collapseAllChapters : expandAllChapters}
-              className={`p-1.5 rounded text-xs transition-colors ${
-                isDark 
-                  ? 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50' 
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
-              }`}
-              title={expandedChapters.size === tutorialChapters.length 
-                ? (isZh ? '折叠全部' : 'Collapse All') 
-                : (isZh ? '展开全部' : 'Expand All')
-              }
-            >
-              {expandedChapters.size === tutorialChapters.length 
-                ? <ChevronRightIcon size={16} /> 
-                : <ChevronDown size={16} />
-              }
-            </button>
           </div>
           
           {tutorialChapters.map(chapter => {
@@ -629,15 +721,26 @@ export default function TutorialPage() {
             
             return (
               <div key={chapter.id} className="mb-2">
-                {/* Chapter header - clickable to toggle */}
+                {/* Chapter header - clickable to toggle expand/collapse */}
                 <button
-                  onClick={() => toggleChapter(chapter.id)}
+                  onClick={() => {
+                    // 点击章节标题展开/收起该章节
+                    setExpandedChapters(prev => {
+                      const newSet = new Set(prev);
+                      if (newSet.has(chapter.id)) {
+                        newSet.delete(chapter.id);
+                      } else {
+                        newSet.add(chapter.id);
+                      }
+                      return newSet;
+                    });
+                  }}
                   className={`
                     w-full flex items-center justify-between px-2 py-2 rounded-lg text-left
-                    transition-colors group
+                    transition-colors group cursor-pointer
                     ${isCurrentChapter
-                      ? isDark 
-                        ? 'bg-zinc-800/50 text-zinc-200' 
+                      ? isDark
+                        ? 'bg-zinc-800/50 text-zinc-200'
                         : 'bg-gray-100 text-gray-800'
                       : isDark
                         ? 'text-zinc-400 hover:text-zinc-300 hover:bg-zinc-800/30'
@@ -648,8 +751,8 @@ export default function TutorialPage() {
                   <span className="text-sm font-semibold">
                     {chapter.id}: {isZh ? chapter.title : chapter.titleEn}
                   </span>
-                  <ChevronRightIcon 
-                    size={16} 
+                  <ChevronRightIcon
+                    size={16}
                     className={`transition-transform duration-200 ${
                       isExpanded ? 'rotate-90' : ''
                     }`}
@@ -672,7 +775,7 @@ export default function TutorialPage() {
                             if (window.innerWidth < 768) setSidebarOpen(false);
                           }}
                           className={`
-                            w-full text-left px-3 py-2 text-sm flex items-center gap-2.5 rounded-lg transition-all
+                            w-full text-left px-3 py-2 text-sm flex items-center gap-2.5 rounded-lg transition-all cursor-pointer
                             ${lessonId === lesson.id
                               ? 'bg-emerald-500/15 text-emerald-600 border border-emerald-500/30'
                               : isDark
@@ -697,17 +800,6 @@ export default function TutorialPage() {
 
         </div>
       </aside>
-
-      {/* 侧边栏收起时的展开按钮 - 仅在桌面端显示 */}
-      {!sidebarOpen && (
-        <button
-          onClick={() => setSidebarOpen(true)}
-          className={`hidden md:flex fixed left-0 top-20 z-30 w-6 h-12 rounded-r-lg border ${isDark ? 'border-zinc-700 bg-zinc-800 text-zinc-400 hover:text-zinc-200' : 'border-gray-200 bg-white text-gray-400 hover:text-gray-600'} shadow-md items-center justify-center transition-all hover:scale-110`}
-          title={isZh ? '展开目录' : 'Expand'}
-        >
-          <ChevronRightIcon size={14} />
-        </button>
-      )}
 
       {/* Main content */}
       <main className={`pt-16 md:pt-12 min-h-screen transition-all duration-300 ${sidebarOpen ? 'md:pl-80' : ''}`}>
@@ -749,29 +841,53 @@ export default function TutorialPage() {
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
-                    code({ className, children, ...props }) {
+                    code({ className, children, node, ...props }) {
                       const match = /language-(\w+)/.exec(className || '');
+                      const language = match?.[1] || '';
                       const inline = !match;
+
+                      let codeString = '';
+                      if (node && 'value' in node) {
+                        codeString = String(node.value);
+                      } else if (node && node.children && node.children.length > 0 && 'value' in node.children[0]) {
+                        codeString = String(node.children[0].value);
+                      } else {
+                        const getStringContent = (c: React.ReactNode): string => {
+                          if (typeof c === 'string') return c;
+                          if (typeof c === 'number') return String(c);
+                          if (Array.isArray(c)) return c.map(getStringContent).join('');
+                          if (c && typeof c === 'object' && 'props' in c) {
+                            const element = c as { props: { children?: React.ReactNode } };
+                            return getStringContent(element.props.children);
+                          }
+                          return '';
+                        };
+                        codeString = getStringContent(children);
+                      }
+                      codeString = codeString.replace(/\n$/, '');
+
+                      // Mermaid 图表处理
+                      if (language === 'mermaid') {
+                        return (
+                          <div className="mermaid-chart my-6">
+                            <pre className="mermaid">{codeString}</pre>
+                          </div>
+                        );
+                      }
+
                       return !inline ? (
-                        <SyntaxHighlighter
-                          style={vscDarkPlus as any}
-                          language={match[1]}
-                          PreTag="div"
-                          customStyle={{
-                            margin: '1.5rem 0',
-                            borderRadius: '12px',
-                            border: isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
-                            background: '#1e1e1e',
-                            boxShadow: isDark ? 'none' : '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                          }}
+                        <CodeBlock
+                          codeString={codeString}
+                          language={language}
+                          isDark={isDark}
                         >
-                          {String(children).replace(/\n$/, '')}
-                        </SyntaxHighlighter>
+                          {children}
+                        </CodeBlock>
                       ) : (
-                        <code 
+                        <code
                           className={`px-1.5 py-0.5 rounded text-sm ${
-                            isDark 
-                              ? 'bg-emerald-500/15 text-emerald-400' 
+                            isDark
+                              ? 'bg-emerald-500/15 text-emerald-400'
                               : 'bg-emerald-100 text-emerald-700'
                           }`}
                           {...props}
@@ -797,6 +913,18 @@ export default function TutorialPage() {
                     td: ({children}) => <td className={styles.td}>{children}</td>,
                     hr: () => <hr className={styles.hr} />,
                     strong: ({children}) => <strong className={styles.strong}>{children}</strong>,
+                    img: ({ src, alt }) => {
+                      const imgData = { src: src || '', alt: alt || '' };
+                      const idx = imageList.findIndex(i => i.src === imgData.src);
+                      return (
+                        <img
+                          src={imgData.src}
+                          alt={imgData.alt}
+                          className="max-w-full h-auto rounded-lg cursor-pointer hover:opacity-90 transition-opacity my-4"
+                          onClick={() => setPreviewIndex(idx >= 0 ? idx : 0)}
+                        />
+                      );
+                    },
                   }}
                 >
                   {content}
@@ -811,7 +939,7 @@ export default function TutorialPage() {
                 {prevLesson ? (
                   <button
                     onClick={() => navigate(`/tutorial/${prevLesson.id}`)}
-                    className={`flex items-center gap-2 px-4 py-3 rounded-xl border transition-all text-sm group ${
+                    className={`flex items-center gap-2 px-4 py-3 rounded-xl border transition-all text-sm group cursor-pointer ${
                       isDark
                         ? 'border-zinc-800 hover:border-zinc-600 hover:bg-zinc-900/50'
                         : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
@@ -831,7 +959,7 @@ export default function TutorialPage() {
                 {nextLesson ? (
                   <button
                     onClick={() => navigate(`/tutorial/${nextLesson.id}`)}
-                    className={`flex items-center gap-2 px-4 py-3 rounded-xl border transition-all text-sm group ${
+                    className={`flex items-center gap-2 px-4 py-3 rounded-xl border transition-all text-sm group cursor-pointer ${
                       isDark
                         ? 'border-zinc-800 hover:border-zinc-600 hover:bg-zinc-900/50'
                         : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
@@ -856,7 +984,7 @@ export default function TutorialPage() {
               <p className={`mb-8 ${isDark ? 'text-zinc-500' : 'text-gray-500'}`}>{t.tutorial.selectLesson}</p>
               <button
                 onClick={() => navigate('/tutorial/L1-1')}
-                className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-full transition-all"
+                className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-full transition-all cursor-pointer"
               >
                 {t.tutorial.startTraining}
               </button>

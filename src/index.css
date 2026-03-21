@@ -145,3 +145,27 @@ button, a {
 .btn-press:active {
   @apply scale-95;
 }
+
+/* Mermaid 图表样式 */
+.mermaid-chart {
+  @apply my-6 flex justify-center;
+}
+
+.mermaid-chart .mermaid {
+  @apply max-w-full overflow-auto;
+}
+
+/* Mermaid 图表容器样式 */
+.mermaid svg {
+  @apply max-w-full h-auto;
+}
+
+/* 暗色模式下的 Mermaid 样式调整 */
+.dark .mermaid {
+  filter: brightness(0.95);
+}
+
+/* Mermaid 图表错误提示样式 */
+.mermaid-error {
+  @apply p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400;
+}

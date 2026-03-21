@@ -1,7 +1,7 @@
 import { useSettingsStore, useProgressStore, getShortcutDisplay } from '../store';
 import { useTranslation } from '../hooks/useTranslation';
-import { Moon, Sun, Type, Trash2, Sparkles, Globe, Monitor, Keyboard, RotateCcw } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Moon, Sun, Type, Trash2, Sparkles, Globe, Monitor, Keyboard, RotateCcw, ArrowLeft } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 
 // 快捷键输入组件
@@ -118,6 +118,7 @@ function ShortcutInput({
 
 export default function SettingsPage() {
   const t = useTranslation();
+  const navigate = useNavigate();
   const { theme, fontSize, language, shortcuts, setTheme, setFontSize, setLanguage, setShortcut, resetShortcuts, getEffectiveTheme } = useSettingsStore();
   const { completedLessons, resetProgress } = useProgressStore();
 
@@ -136,9 +137,20 @@ export default function SettingsPage() {
             <Sparkles className="w-5 h-5 text-emerald-500" />
             <span className="font-bold">AI Commander</span>
           </Link>
-          <div className={`flex items-center gap-2 text-sm ${isDark ? 'text-zinc-500' : 'text-gray-500'}`}>
-            <span>/</span>
-            <span>{t.settings.title}</span>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate(-1)}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                isDark ? 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <ArrowLeft size={16} />
+              <span>{language === 'zh' ? '返回' : 'Back'}</span>
+            </button>
+            <div className={`flex items-center gap-2 text-sm ${isDark ? 'text-zinc-500' : 'text-gray-500'}`}>
+              <span>/</span>
+              <span>{t.settings.title}</span>
+            </div>
           </div>
         </div>
       </header>

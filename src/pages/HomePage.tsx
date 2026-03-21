@@ -25,8 +25,103 @@ import {
 import { useSettingsStore } from '../store';
 import { tutorialChapters } from '../data/tutorials';
 
+function NeuralBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationId: number;
+    const particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      opacity: number;
+      hue: number;
+    }> = [];
+    const particleCount = 80;
+    const connectionDistance = 150;
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        size: Math.random() * 2 + 1,
+        opacity: Math.random() * 0.5 + 0.2,
+        hue: 160 + Math.random() * 40,
+      });
+    }
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p, i) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${p.hue}, 80%, 60%, ${p.opacity})`;
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < connectionDistance) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `hsla(${p.hue}, 80%, 60%, ${0.15 * (1 - dist / connectionDistance)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      });
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full opacity-40"
+      style={{ zIndex: -1 }}
+    />
+  );
+}
+
 // Animation hook for intersection observer
-function useIntersectionObserver(options = {}) {
+function useIntersectionObserver() {
   const [isIntersecting, setIsIntersecting] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -36,7 +131,7 @@ function useIntersectionObserver(options = {}) {
         setIsIntersecting(true);
         observer.disconnect();
       }
-    }, { threshold: 0.1, ...options });
+    }, { threshold: 0.1 });
 
     if (ref.current) {
       observer.observe(ref.current);
@@ -94,7 +189,7 @@ function FeatureCard({
   return (
     <AnimatedSection delay={delay}>
       <div
-        className={`group relative p-8 rounded-3xl transition-all duration-500 hover:scale-[1.02] ${
+        className={`group relative p-8 rounded-3xl transition-all duration-500 hover:scale-[1.02] h-full flex flex-col ${
           isDark
             ? 'bg-zinc-900/50 border border-zinc-800/50 hover:border-zinc-700/50 hover:bg-zinc-800/50'
             : 'bg-white/80 border border-gray-200/50 hover:border-gray-300/50 hover:bg-white/95'
@@ -118,7 +213,7 @@ function FeatureCard({
         >
           {title}
         </h3>
-        <p className={`leading-relaxed ${isDark ? 'text-zinc-400' : 'text-gray-600'}`}>
+        <p className={`leading-relaxed flex-1 ${isDark ? 'text-zinc-400' : 'text-gray-600'}`}>
           {description}
         </p>
       </div>
@@ -372,6 +467,7 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-20 pb-32 px-6 overflow-hidden">
+        <NeuralBackground />
         {/* Background effects */}
         <div className="absolute inset-0 -z-10">
           <FloatingElement
@@ -425,22 +521,23 @@ export default function HomePage() {
             >
               {t.home.title}
               <br />
-              <span className="relative">
+              <span className="relative inline-block">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400">
                   {t.home.titleHighlight}
                 </span>
                 <svg
-                  className="absolute -bottom-2 left-0 w-full"
-                  viewBox="0 0 300 12"
+                  className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[120%]"
+                  viewBox="0 0 400 20"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="none"
                 >
                   <path
-                    d="M2 8C50 2 100 2 150 8C200 14 250 14 298 8"
+                    d="M4 15C80 5 160 5 200 12C240 19 320 19 396 12"
                     stroke="url(#gradient)"
-                    strokeWidth="3"
+                    strokeWidth="5"
                     strokeLinecap="round"
-                    className="opacity-60"
+                    className="opacity-80"
                   />
                   <defs>
                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -562,7 +659,7 @@ export default function HomePage() {
           </div>
 
           {/* Feature cards grid */}
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6 items-stretch">
             <FeatureCard
               icon={Layers}
               title={t.home.sdd}
@@ -674,7 +771,7 @@ export default function HomePage() {
 
       {/* Stats Section */}
       <section className={`py-24 px-6 relative ${isDark ? 'border-t border-zinc-800/50' : 'border-t border-gray-200/50'}`}>
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             <StatItem
               value="09"
@@ -793,7 +890,7 @@ export default function HomePage() {
             </div>
 
             <div className={`text-sm ${isDark ? 'text-zinc-600' : 'text-gray-400'}`}>
-              © 2024 AI Commander Training. All rights reserved.
+              © 2026 AI Commander Training. All rights reserved.
             </div>
           </div>
         </div>
