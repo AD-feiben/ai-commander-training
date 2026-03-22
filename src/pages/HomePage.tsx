@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { useSettingsStore } from '../store';
 import { tutorialChapters } from '../data/tutorials';
+import GoogleAdSense from '../components/GoogleAdSense';
 
 function NeuralBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -806,6 +807,18 @@ export default function HomePage() {
               isDark={isDark}
             />
           </div>
+        </div>
+      </section>
+
+      {/* Google AdSense Section */}
+      <section className={`py-16 px-6 relative ${isDark ? 'border-t border-zinc-800/50' : 'border-t border-gray-200/50'}`}>
+        <div className="max-w-4xl mx-auto">
+          <AnimatedSection>
+            <p className={`text-xs text-center mb-4 uppercase tracking-wider ${isDark ? 'text-zinc-500' : 'text-gray-500'}`}>
+              {isZh ? '赞助商' : 'Sponsor'}
+            </p>
+            <GoogleAdSense placement="inline" format="auto" />
+          </AnimatedSection>
         </div>
       </section>
 

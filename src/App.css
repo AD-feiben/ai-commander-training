@@ -182,3 +182,119 @@
     border-right-color: var(--border);
   }
 }
+
+/* Carbon Ads 样式 */
+.carbon-ads-container {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Carbon Ads 深色模式样式 */
+.dark .carbon-ads-container,
+[data-theme='dark'] .carbon-ads-container {
+  --carbon-bg: rgba(39, 39, 42, 0.5);
+  --carbon-border: rgba(63, 63, 70, 0.5);
+  --carbon-text: #a1a1aa;
+  --carbon-link: #34d399;
+  --carbon-powered: #71717a;
+}
+
+/* Carbon Ads 浅色模式样式 */
+.light .carbon-ads-container,
+[data-theme='light'] .carbon-ads-container {
+  --carbon-bg: rgba(243, 244, 246, 1);
+  --carbon-border: rgba(229, 231, 235, 1);
+  --carbon-text: #6b7280;
+  --carbon-link: #059669;
+  --carbon-powered: #9ca3af;
+}
+
+/* Carbon Ads 内部元素样式覆盖 */
+#carbonads {
+  display: block;
+  overflow: hidden;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--carbon-bg, rgba(243, 244, 246, 1));
+  border: 1px solid var(--carbon-border, rgba(229, 231, 235, 1));
+  transition: all 0.3s ease;
+}
+
+#carbonads:hover {
+  border-color: var(--carbon-link, #059669);
+}
+
+#carbonads span {
+  display: block;
+  overflow: hidden;
+}
+
+.carbon-img {
+  display: block;
+  margin: 0 auto 8px;
+  line-height: 1;
+}
+
+.carbon-img img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.carbon-text {
+  display: block;
+  margin: 0 0 8px;
+  color: var(--carbon-text, #6b7280);
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.carbon-text:hover {
+  color: var(--carbon-link, #059669);
+}
+
+.carbon-poweredby {
+  display: block;
+  color: var(--carbon-powered, #9ca3af);
+  font-size: 10px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.carbon-poweredby:hover {
+  color: var(--carbon-link, #059669);
+}
+
+/* 侧边栏位置的 Carbon Ads */
+.carbon-ads-container[data-placement='sidebar'] #carbonads {
+  max-width: 130px;
+  margin: 0 auto;
+}
+
+.carbon-ads-container[data-placement='sidebar'] .carbon-img {
+  margin-bottom: 8px;
+}
+
+/* 底部和内联位置的 Carbon Ads */
+.carbon-ads-container[data-placement='footer'] #carbonads,
+.carbon-ads-container[data-placement='inline'] #carbonads {
+  max-width: 330px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.carbon-ads-container[data-placement='footer'] .carbon-img,
+.carbon-ads-container[data-placement='inline'] .carbon-img {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.carbon-ads-container[data-placement='footer'] .carbon-text,
+.carbon-ads-container[data-placement='inline'] .carbon-text {
+  margin-bottom: 4px;
+}

@@ -55,20 +55,40 @@ export const defaultGiscusConfig: GiscusConfig = {
  * 3. 重新构建项目
  */
 function getConfigFromEnv(): Partial<GiscusConfig> {
-  return {
-    repo: import.meta.env.VITE_GISCUS_REPO,
-    repoId: import.meta.env.VITE_GISCUS_REPO_ID,
-    category: import.meta.env.VITE_GISCUS_CATEGORY,
-    categoryId: import.meta.env.VITE_GISCUS_CATEGORY_ID,
-    mapping: import.meta.env.VITE_GISCUS_MAPPING,
-    reactionsEnabled: import.meta.env.VITE_GISCUS_REACTIONS_ENABLED !== undefined
-      ? import.meta.env.VITE_GISCUS_REACTIONS_ENABLED !== 'false'
-      : undefined,
-    emitMetadata: import.meta.env.VITE_GISCUS_EMIT_METADATA !== undefined
-      ? import.meta.env.VITE_GISCUS_EMIT_METADATA === 'true'
-      : undefined,
-    inputPosition: import.meta.env.VITE_GISCUS_INPUT_POSITION,
-  };
+  const config: Partial<GiscusConfig> = {};
+
+  if (import.meta.env.VITE_GISCUS_REPO) {
+    config.repo = import.meta.env.VITE_GISCUS_REPO;
+  }
+  if (import.meta.env.VITE_GISCUS_REPO_ID) {
+    config.repoId = import.meta.env.VITE_GISCUS_REPO_ID;
+  }
+  if (import.meta.env.VITE_GISCUS_CATEGORY) {
+    config.category = import.meta.env.VITE_GISCUS_CATEGORY;
+  }
+  if (import.meta.env.VITE_GISCUS_CATEGORY_ID) {
+    config.categoryId = import.meta.env.VITE_GISCUS_CATEGORY_ID;
+  }
+  if (import.meta.env.VITE_GISCUS_MAPPING) {
+    const mapping = import.meta.env.VITE_GISCUS_MAPPING;
+    if (['pathname', 'url', 'title', 'og:title', 'specific'].includes(mapping)) {
+      config.mapping = mapping as GiscusConfig['mapping'];
+    }
+  }
+  if (import.meta.env.VITE_GISCUS_REACTIONS_ENABLED !== undefined) {
+    config.reactionsEnabled = import.meta.env.VITE_GISCUS_REACTIONS_ENABLED !== 'false';
+  }
+  if (import.meta.env.VITE_GISCUS_EMIT_METADATA !== undefined) {
+    config.emitMetadata = import.meta.env.VITE_GISCUS_EMIT_METADATA === 'true';
+  }
+  if (import.meta.env.VITE_GISCUS_INPUT_POSITION) {
+    const inputPosition = import.meta.env.VITE_GISCUS_INPUT_POSITION;
+    if (['top', 'bottom'].includes(inputPosition)) {
+      config.inputPosition = inputPosition as GiscusConfig['inputPosition'];
+    }
+  }
+
+  return config;
 }
 
 /**

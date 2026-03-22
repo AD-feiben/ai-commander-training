@@ -17,6 +17,7 @@ import { useTranslation } from '../hooks/useTranslation';
 import { Link } from 'react-router-dom';
 import GiscusComments from '../components/GiscusComments';
 import SkeletonLoader from '../components/SkeletonLoader';
+import GoogleAdSense from '../components/GoogleAdSense';
 
 interface CodeBlockProps {
   codeString: string;
@@ -797,6 +798,14 @@ export default function TutorialPage() {
               </div>
             );
           })}
+
+          {/* Google AdSense - 侧边栏广告 */}
+          <div className="mt-8 pt-6 border-t border-dashed border-zinc-200/10">
+            <p className={`text-xs text-center mb-3 ${isDark ? 'text-zinc-600' : 'text-gray-400'}`}>
+              {isZh ? '赞助商' : 'Sponsor'}
+            </p>
+            <GoogleAdSense placement="sidebar" format="rectangle" />
+          </div>
 
         </div>
       </aside>
